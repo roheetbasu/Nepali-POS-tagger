@@ -1,5 +1,6 @@
 from transformers import AutoModelForTokenClassification
 
+
 def load_model(model_name,label2ids):
     NUM_LABELS = len(label2ids)
     model = AutoModelForTokenClassification.from_pretrained(
@@ -8,3 +9,10 @@ def load_model(model_name,label2ids):
         label2id = label2ids,
     )
     return model
+
+
+    
+
+    
+    
+    

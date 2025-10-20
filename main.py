@@ -3,7 +3,9 @@ import pandas as pd
 from SRC.preprocessing import read_and_clean_data
 from SRC.tokenizer import tokenize_and_align_labels,load_tokenizer
 from SRC.model import load_model
-from SRC.dataloader import data_loader
+from SRC.dataloader import get_dataloader
+from SRC.train_and_eval import train_model
+from SRC.test import test_model
 from sklearn.model_selection import train_test_split
 from transformers import AutoTokenizer
 from datasets import Dataset
@@ -51,11 +53,17 @@ tokenized_test = tokenized_test.remove_columns(['words'])
 tokenized_train.set_format(type="torch")
 tokenized_test.set_format(type="torch")
 
-train_dataloader = data_loader(tokenizer, tokenized_train, batch_size=32,shuffle=True)
-test_dataloader = data_loader(tokenizer, tokenized_test, batch_size=32,shuffle=False)
+train_dataloader = get_dataloader(tokenizer, tokenized_train, batch_size=32,shuffle=True)
+test_dataloader = get_dataloader(tokenizer, tokenized_test, batch_size=32,shuffle=False)
 
+#loading model
 model = load_model("Shushant/nepaliBERT",label2ids)
 
+#training model
+train_model(model,train_dataloader,test_dataloader,label2ids,epochs=10,lr=5e-5)
+
+#test model 
+test_model()
 
 
 

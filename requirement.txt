@@ -4,3 +4,5 @@ torch
 pandas
 datasets
 sklearn
+tqdm
+seqeval
