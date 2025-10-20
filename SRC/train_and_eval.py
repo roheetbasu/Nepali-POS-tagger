@@ -3,6 +3,7 @@ from transformers import get_scheduler
 from torch.optim import AdamW
 from tqdm.auto import tqdm
 import numpy as np
+import evaluate
 
 
 def compute_metrics(predictions, labels, id2label):
@@ -18,7 +19,7 @@ def compute_metrics(predictions, labels, id2label):
         [id2label[l] for (p, l) in zip(pred, lab) if l != -100] 
         for pred, lab in zip(predictions, labels)
     ]
-    
+    seqeval = evaluate.load("seqeval")
     results = seqeval.compute(predictions=true_predictions, references=true_labels)
 
     return {
